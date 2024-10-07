@@ -5,13 +5,13 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Секретный ключ проекта
-SECRET_KEY = 'your-secret-key'  # Убедитесь, что у вас установлен реальный секретный ключ
+SECRET_KEY = 'your-secret-key'
 
 # Включаем режим отладки для разработки (выключить в продакшене)
-DEBUG = False  # Для развертывания в продакшене следует установить False
+DEBUG = True
 
 # Хосты, с которых разрешён доступ
-ALLOWED_HOSTS = ['website-ljz9.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 # Установленные приложения (включаем наше приложение 'accounts')
 INSTALLED_APPS = [
@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',  # Ваше приложение
+    'accounts',  # Наше приложение
 ]
 
 # Мидлвары (обработчики запросов)
@@ -42,7 +42,7 @@ ROOT_URLCONF = 'website.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'accounts/templates')],  # Путь к папке шаблонов
+        'DIRS': [BASE_DIR / 'accounts/templates'],  # Путь к папке с шаблонами
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,7 +87,7 @@ USE_TZ = True
 
 # Статические файлы (CSS, JavaScript, изображения)
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Это нужно для collectstatic
+STATICFILES_DIRS = [BASE_DIR / 'accounts/static']  # Путь к статическим файлам
 
 # Медиа файлы (если используешь загрузку файлов)
 MEDIA_URL = '/media/'

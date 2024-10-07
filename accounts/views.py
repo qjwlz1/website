@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout  # Импортируйте logout
 from django.contrib import messages
-from .forms import UserRegisterForm
-from django.contrib.auth.models import User
+from .forms import UserRegisterForm  # Убедитесь, что форма регистрации правильно импортирована
+from django.contrib.auth.models import User  # Импортируйте модель User
 
 def index(request):
     return render(request, 'home/index.html')  # Возвращаем шаблон главной страницы
