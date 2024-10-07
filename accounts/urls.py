@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from . import views  # Импортируем views из текущего приложения
+from accounts import views  # Импортируем views из приложения accounts
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Подключаем маршруты для админки
-    path('login/', views.login_page, name='login'),  # Маршрут для страницы входа
-    path('register/', views.register_page, name='register'),  # Маршрут для страницы регистрации
-    path('logout/', views.logout_user, name='logout'),  # Добавляем маршрут для выхода
-    path('', views.index, name='index'),  # Маршрут для главной страницы
-    path('accounts/', include('accounts.urls')),  # Подключаем маршруты приложения accounts
+    path('admin/', admin.site.urls),  # Админка
+    path('', views.index, name='index'),  # Главная страница
+    path('login/', views.login_page, name='login'),  # Страница входа
+    path('register/', views.register_page, name='register'),  # Страница регистрации
+    path('logout/', views.logout_user, name='logout'),  # Выход
+    path('accounts/', include('accounts.urls')),  # Подключение маршрутов для аккаунтов
 ]
