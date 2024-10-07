@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'your-secret-key'
 
 # Включаем режим отладки для разработки (выключить в продакшене)
-DEBUG = True
+DEBUG = False
 
 # Хосты, с которых разрешён доступ
 ALLOWED_HOSTS = ['website-ljz9.onrender.com', 'localhost', '127.0.0.1']
