@@ -54,7 +54,6 @@ TEMPLATES = [
         },
     },
 ]
-
 # Настройки базы данных (по умолчанию SQLite)
 DATABASES = {
     'default': {
