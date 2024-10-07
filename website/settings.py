@@ -5,10 +5,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Секретный ключ проекта
-SECRET_KEY = 'your-secret-key'
+SECRET_KEY = 'your-secret-key'  # Убедитесь, что у вас установлен реальный секретный ключ
 
 # Включаем режим отладки для разработки (выключить в продакшене)
-DEBUG = False
+DEBUG = False  # Для развертывания в продакшене следует установить False
 
 # Хосты, с которых разрешён доступ
 ALLOWED_HOSTS = ['website-ljz9.onrender.com', 'localhost', '127.0.0.1']
@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',  # Наше приложение
+    'accounts',  # Ваше приложение
 ]
 
 # Мидлвары (обработчики запросов)
@@ -54,6 +54,7 @@ TEMPLATES = [
         },
     },
 ]
+
 # Настройки базы данных (по умолчанию SQLite)
 DATABASES = {
     'default': {
@@ -86,7 +87,7 @@ USE_TZ = True
 
 # Статические файлы (CSS, JavaScript, изображения)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'accounts/static']  # Путь к статическим файлам
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Это нужно для collectstatic
 
 # Медиа файлы (если используешь загрузку файлов)
 MEDIA_URL = '/media/'
