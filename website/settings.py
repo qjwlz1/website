@@ -42,7 +42,7 @@ ROOT_URLCONF = 'website.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Путь к папке шаблонов
+        'DIRS': [os.path.join(BASE_DIR, 'accounts/templates')],  # Путь к папке шаблонов
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -54,7 +54,6 @@ TEMPLATES = [
         },
     },
 ]
-
 # Настройки базы данных (по умолчанию SQLite)
 DATABASES = {
     'default': {
