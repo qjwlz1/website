@@ -5,10 +5,14 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Секретный ключ проекта
-SECRET_KEY = 'your-secret-key'
+SECRET_KEY = 'your-secret-key'  # Убедитесь, что у вас установлен реальный секретный ключ
 
 # Включаем режим отладки для разработки (выключить в продакшене)
+<<<<<<< HEAD
 DEBUG = True
+=======
+DEBUG = False  # Для развертывания в продакшене следует установить False
+>>>>>>> a81757e94ebc2cae8e7427c2a37cce73edc5d52f
 
 # Хосты, с которых разрешён доступ
 ALLOWED_HOSTS = []
@@ -21,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',  # Наше приложение
+    'accounts',  # Ваше приложение
 ]
 
 # Мидлвары (обработчики запросов)
@@ -87,7 +91,7 @@ USE_TZ = True
 
 # Статические файлы (CSS, JavaScript, изображения)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'accounts/static']  # Путь к статическим файлам
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Это нужно для collectstatic
 
 # Медиа файлы (если используешь загрузку файлов)
 MEDIA_URL = '/media/'
