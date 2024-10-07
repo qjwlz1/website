@@ -11,7 +11,7 @@ SECRET_KEY = 'your-secret-key'
 DEBUG = True
 
 # Хосты, с которых разрешён доступ
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'website-ljz9.onrender.com']
+ALLOWED_HOSTS = ['website-ljz9.onrender.com', 'localhost', '127.0.0.1']
 
 # Установленные приложения (включаем наше приложение 'accounts')
 INSTALLED_APPS = [
