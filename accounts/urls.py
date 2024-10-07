@@ -4,7 +4,7 @@ from accounts import views  # Импортируем views из приложен
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # Админка
-    path('home/', views.index, name='index'),  # Главная страница
+    path('', views.index, name='index'),  # Главная страница (изменен путь на пустой для корневого URL)
     path('login/', views.login_page, name='login'),  # Страница входа
     path('register/', views.register_page, name='register'),  # Страница регистрации
     path('logout/', views.logout_user, name='logout'),  # Выход
