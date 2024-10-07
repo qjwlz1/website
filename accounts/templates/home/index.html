@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
+        :root {
+            --text-color--: #DF9270;
+            --text-color-blend--: #030558;
+            --back-up-color--: #E7FAF9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Open Sans", sans-serif;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background: url("{% static 'images/cm.jpg' %}") no-repeat center;
+            background-size: cover;
+        }
+
+        nav {
+            width: 100%;
+            padding: 2rem 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo h1 {
+            font-size: 27px;
+            color: #fff;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            gap: 3rem;
+        }
+
+        li a {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 25px;
+            padding: 10px 15px;
+            transition: 0.6s;
+        }
+
+        li a:hover {
+            background-color: var(--text-color--);
+        }
+
+        .active {
+            background-color: var(--text-color--);
+        }
+
+        button {
+            border: 2px solid var(--back-up-color--);
+            background: transparent;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--back-up-color--);
+            cursor: pointer;
+            transition: 0.65s;
+        }
+
+        button:hover {
+            background-color: var(--back-up-color--);
+            color: #000;
+        }
+
+        .home-content {
+            padding: 2rem 5rem;
+            display: flex;
+            align-items: center;
+            height: 78vh;
+        }
+
+        .home-container {
+            align-items: center;
+            width: 600px;
+        }
+
+        .home-container h1 {
+            color: #fff;
+            font-size: 5rem;
+            padding-bottom: 30px;
+        }
+
+        .home-container p {
+            color: #fff;
+            padding-bottom: 20px;
+        }
+
+        #explore {
+            margin-left: 20px;
+        }
+
+        /* Стили для уведомлений */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 128, 0, 0.8);
+            color: white;
+            padding: 10px 15px;  /* Уменьшите padding для компактности */
+            border-radius: 5px;
+            display: none; /* Скрыто по умолчанию */
+            z-index: 1000;
+            transition: opacity 0.3s ease;  /* Добавляем плавный переход */
+        }
+
+        /* Выпадающее меню */
+        .profile-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-dropdown {
+            display: none; /* Скрыто по умолчанию */
+            position: absolute;
+            background-color: #fff;
+            min-width: 150px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .profile-dropdown a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #ddd;
+        }
+
+        .profile-menu:hover .profile-dropdown {
+            display: block; /* Показываем меню при наведении */
+        }
+
+        /* Стили для кнопки "Login" */
+        .login-button {
+            display: inline-block; /* Сделаем кнопку блочным элементом */
+            background-color: var(--back-up-color--); /* Цвет фона */
+            color: #000; /* Цвет текста */
+            padding: 10px 15px; /* Отступы */
+            border-radius: 5px; /* Закругление углов */
+            font-size: 18px; /* Размер шрифта */
+            font-weight: 600; /* Жирность текста */
+            text-decoration: none; /* Убираем подчеркивание */
+            transition: background-color 0.3s; /* Плавный переход при наведении */
+        }
+
+        .login-button:hover {
+            background-color: rgba(255, 255, 255, 0.5); /* Изменение цвета фона при наведении */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">
+            <h1>Logo</h1>
+        </div>
+        <div class="links">
+            <ul>
+                <li><a class="active" href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="profile-menu">
+            {% if request.user.is_authenticated %}
+                <button>{{ request.user.username }}</button>
+                <div class="profile-dropdown">
+                    <a href="#">Profile</a>
+                    <a href="{% url 'logout' %}">Logout</a>  <!-- Ссылка на выход -->
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="login-button">Login</a> <!-- Кнопка для входа -->
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="home-content">
+        <div class="home-container">
+            <h1>Landing Page</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum animi ad, voluptatem sapiente molestias consequuntur reprehenderit eaque libero deserunt nemo, numquam beatae! Repellendus est beatae voluptate quas deleniti quisquam quibusdam?</p>
+            <button id="try-now">Try now</button> 
+            <button id="explore">EXPLORE</button>
+        </div>
+    </div>
+
+    <!-- Уведомление о успешном входе -->
+    {% if messages %}
+        <div class="notification">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</header>
+
+<script>
+    // Уведомление будет отображаться, если оно присутствует
+    const notification = document.querySelector('.notification');
+    if (notification) {
+        notification.style.display = 'block'; // Показываем уведомление
+        setTimeout(() => {
+            notification.style.opacity = '0'; // Скрываем уведомление через 3 секунды
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>

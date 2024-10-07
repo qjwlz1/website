@@ -1,0 +1,60 @@
+/* Основные стили для страницы входа и регистрации */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Темный фон */
+    color: #ffffff; /* Цвет текста */
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.wrapper {
+    background: rgba(255, 255, 255, 0.1); /* Прозрачный фон для формы */
+    backdrop-filter: blur(10px); /* Эффект размытия */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Тень */
+}
+
+/* Стиль для полей ввода */
+.input-field input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #ffffff; /* Цвет рамки */
+    background: transparent; /* Прозрачный фон */
+    color: #ffffff; /* Цвет текста */
+}
+
+.input-field input::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* Цвет плейсхолдера */
+}
+
+/* Стиль для кнопок */
+button {
+    background-color: #ffffff; /* Цвет кнопки */
+    border: none; /* Без рамки */
+    border-radius: 20px; /* Скругленные углы */
+    padding: 10px 20px; /* Отступы */
+    cursor: pointer; /* Курсор указателя */
+    transition: background-color 0.3s; /* Плавный переход цвета */
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.7); /* Цвет кнопки при наведении */
+}
+
+/* Сообщения об ошибках и успехе */
+.success-message {
+    color: green; /* Цвет для успешного сообщения */
+    margin-bottom: 10px;
+}
+
+.error-message {
+    color: red; /* Цвет для сообщения об ошибке */
+    margin-bottom: 10px;
+}

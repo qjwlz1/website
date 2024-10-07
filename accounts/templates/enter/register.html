@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Registration Form</title>
+    <style>
+        body {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .bgvideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+        }
+        .wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgb(241, 241, 241);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        }
+        .wrapper h2 {
+            font-size: 30px;
+            color: #ffffff;
+        }
+        .input-field {
+            position: relative;
+            margin: 15px 0;
+            text-align: left; /* Выравнивание текста по левому краю */
+        }
+        .input-field input {
+            width: 90%;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            background: transparent;
+            color: #ffffff;
+        }
+        .input-field input.error {
+            border: 2px solid red; /* Красная рамка для полей с ошибками */
+        }
+        .input-field input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .input-field i {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .error-message {
+            color: red; /* Цвет текста ошибки */
+            margin-top: 5px; /* Отступ сверху */
+            font-size: 0.9em; /* Уменьшаем размер текста для ошибок */
+            text-align: left; /* Выравнивание текста по левому краю */
+        }
+        button.register {
+            width: 100%;
+            height: 40px;
+            border-radius: 40px;
+            background-color: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.4s ease;
+        }
+        button.register:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <video autoplay loop muted class="bgvideo" id="bgvideo">
+        <source src="{% static 'videos/ingame.mp4' %}" type="video/mp4">
+    </video>
+
+    <div class="wrapper">
+        <h2>Register</h2>
+
+        <!-- Форма для регистрации -->
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div class="input-field">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <i class='bx bxs-user'></i>
+                {% if form.username.errors %}
+                    <div class="error-message">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-field">
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <i class='bx bxs-envelope'></i>
+                {% if form.email.errors %}
+                    <div class="error-message">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-field">
+                <input type="password" id="password" name="password1" placeholder="Password" required>
+                <i class='bx bxs-lock-alt'></i>
+                {% if form.password1.errors %}
+                    <div class="error-message">{{ form.password1.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-field">
+                <input type="password" id="confirm_password" name="password2" placeholder="Confirm Password" required>
+                <i class='bx bxs-lock-alt'></i>
+                {% if form.password2.errors %}
+                    <div class="error-message">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+            <button type="submit" class="register">Register</button>
+        </form>
+    </div>
+</body>
+</html>
