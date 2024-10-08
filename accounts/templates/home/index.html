@@ -4,15 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Главная страница</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
 
         :root {
-            --text-color--: #DF9270;
-            --text-color-blend--: #030558;
-            --back-up-color--: #E7FAF9;
+            --text-color--: #1d3c19; /* Цвет текста и блоков */
+            --text-color-dark--: #009966;
+            --background-color--: #000000;
+            --button-bg--: rgba(255, 255, 255, 0.3); /* Стрелки - белые с прозрачностью */
+            --button-hover--: rgba(255, 255, 255, 0.7); /* При наведении меньше прозрачности */
+            --overlay-color--: rgba(0, 0, 0, 0.5); /* Цвет затемнения */
         }
 
         * {
@@ -24,210 +26,359 @@
 
         body {
             width: 100%;
-            height: 100vh;
-            background: url("{% static 'images/cm.jpg' %}") no-repeat center;
-            background-size: cover;
+            background-color: var(--background-color--);
+            color: var(--text-color--);
         }
 
+        /* Шапка */
         nav {
             width: 100%;
             padding: 2rem 5rem;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-between; /* Разделение профиля и навигации */
+            background-color: var(--background-color--);
+            position: relative;
+            z-index: 1; /* Для отображения над волнистой линией */
         }
 
-        .logo h1 {
-            font-size: 27px;
-            color: #fff;
+        /* Волнистая линия */
+        .nav-divider {
+            width: 100%; /* Занимает всю ширину */
+            height: 10px; /* Высота волнистой линии */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10"><path d="M0,0 C20,10 40,0 60,10 C80,20 100,10 100,0 Z" fill="%231d3c19"/></svg>'); /* Цвет линии изменён */
+            background-size: cover;
+            margin-top: -10px; /* Поднимаем волнистую линию к шапке */
         }
 
         ul {
             list-style: none;
             display: flex;
-            gap: 3rem;
+            gap: 2rem;
+            margin-right: auto; /* Сместить меню влево */
         }
 
         li a {
-            color: #fff;
+            color: var(--text-color--);
             font-size: 18px;
             font-weight: 600;
-            text-decoration: none;
-            border-radius: 25px;
+            text-decoration: none; /* Убрали подчеркивание */
             padding: 10px 15px;
-            transition: 0.6s;
+            transition: 0.3s;
+            border-radius: 5px; /* Закругление кнопок */
+            border: 2px solid transparent; /* Граница кнопок */
         }
 
         li a:hover {
-            background-color: var(--text-color--);
+            color: var(--text-color-dark--);
+            border: 2px solid var(--text-color--); /* Граница при наведении */
         }
 
         .active {
-            background-color: var(--text-color--);
+            border: 2px solid var(--text-color--); /* Граница для активной кнопки */
         }
 
-        button {
-            border: 2px solid var(--back-up-color--);
-            background: transparent;
-            border-radius: 5px;
-            padding: 10px 15px;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--back-up-color--);
-            cursor: pointer;
-            transition: 0.65s;
+        /* Стили для книг и стрелок */
+        .books-section {
+            margin-top: 2rem;
+            padding: 0 5rem;
+            position: relative;
+            max-width: 90%; /* Уменьшить ширину блока */
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        button:hover {
-            background-color: var(--back-up-color--);
-            color: #000;
+        .books-section h2 {
+            font-size: 2rem;
+            color: var(--text-color--);
+            margin-bottom: 1rem;
         }
 
-        .home-content {
-            padding: 2rem 5rem;
+        .books-container {
             display: flex;
-            align-items: center;
-            height: 78vh;
+            gap: 20px; /* Расстояние между книгами увеличено */
+            overflow: hidden;
         }
 
-        .home-container {
-            align-items: center;
-            width: 600px;
+        .book {
+            width: 200px; /* Уменьшение ширины книги */
+            height: 300px; /* Уменьшение высоты книги */
+            background-color: var(--text-color-dark--);
+            border-radius: 10px;
+            flex: none;
+            position: relative; /* Для позиционирования затемнения */
         }
 
-        .home-container h1 {
-            color: #fff;
-            font-size: 5rem;
-            padding-bottom: 30px;
+        .book img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s; /* Плавный эффект увеличения при наведении */
         }
 
-        .home-container p {
-            color: #fff;
-            padding-bottom: 20px;
-        }
-
-        #explore {
-            margin-left: 20px;
-        }
-
-        /* Стили для уведомлений */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 128, 0, 0.8);
+        /* Затемнение для книги */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--overlay-color--);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Выравнивание содержимого вниз */
+            align-items: flex-start; /* Выравнивание текста по левому краю */
+            text-align: left; /* Выравнивание текста по левому краю */
             color: white;
-            padding: 10px 15px;  /* Уменьшите padding для компактности */
-            border-radius: 5px;
-            display: none; /* Скрыто по умолчанию */
-            z-index: 1000;
-            transition: opacity 0.3s ease;  /* Добавляем плавный переход */
+            padding: 10px;
         }
 
-        /* Выпадающее меню */
+        /* Открытое описание */
+        .book:hover .overlay {
+            opacity: 1; /* Показываем затемнение при наведении */
+        }
+
+        .book:hover img {
+            transform: scale(1.05); /* Увеличиваем изображение при наведении */
+        }
+
+        /* Кнопка "Читать" */
+        .read-button {
+            background-color: var(--text-color--);
+            color: #000;
+            border: none;
+            padding: 10px 0; /* Вертикальные отступы */
+            border-radius: 10px; /* Закругление углов */
+            cursor: pointer;
+            width: 100%; /* Занимает всю ширину блока */
+            transition: background-color 0.3s;
+        }
+
+        .read-button:hover {
+            background-color: var(--text-color-dark--);
+        }
+
+        /* Прозрачные стрелки */
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none; /* Убираем фон */
+            border: none;
+            font-size: 2rem; /* Размер стрелки */
+            color: var(--button-bg--); /* Белая галка с прозрачностью */
+            cursor: pointer;
+            z-index: 2; /* Повыше, чем книги */
+            transition: 0.3s;
+        }
+
+        .scroll-button:hover {
+            color: var(--button-hover--); /* Меньше прозрачности при наведении */
+        }
+
+        .scroll-left {
+            left: 10px; /* Расположение стрелки слева */
+        }
+
+        .scroll-right {
+            right: 10px; /* Расположение стрелки справа */
+        }
+
+        /* Стили для выпадающего меню профиля */
         .profile-menu {
             position: relative;
             display: inline-block;
         }
 
+        .profile-menu button {
+            background: none;
+            color: var(--text-color--);
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
         .profile-dropdown {
-            display: none; /* Скрыто по умолчанию */
+            display: none;
             position: absolute;
-            background-color: #fff;
-            min-width: 150px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            right: 0;
+            background-color: var(--background-color--);
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
 
         .profile-dropdown a {
-            color: black;
+            color: var(--text-color--);
             padding: 12px 16px;
             text-decoration: none;
             display: block;
         }
 
         .profile-dropdown a:hover {
-            background-color: #ddd;
+            background-color: var(--button-hover--);
         }
 
         .profile-menu:hover .profile-dropdown {
-            display: block; /* Показываем меню при наведении */
+            display: block;
         }
 
-        /* Стили для кнопки "Login" */
+        /* Стили для кнопки "Войти" */
         .login-button {
-            display: inline-block; /* Сделаем кнопку блочным элементом */
-            background-color: var(--back-up-color--); /* Цвет фона */
-            color: #000; /* Цвет текста */
-            padding: 10px 15px; /* Отступы */
-            border-radius: 5px; /* Закругление углов */
-            font-size: 18px; /* Размер шрифта */
-            font-weight: 600; /* Жирность текста */
-            text-decoration: none; /* Убираем подчеркивание */
-            transition: background-color 0.3s; /* Плавный переход при наведении */
+            background-color: var(--text-color--);
+            color: #000;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
         }
 
         .login-button:hover {
-            background-color: rgba(255, 255, 255, 0.5); /* Изменение цвета фона при наведении */
+            background-color: var(--text-color-dark--);
         }
+
     </style>
 </head>
 <body>
 
 <header>
     <nav>
-        <div class="logo">
-            <h1>Logo</h1>
-        </div>
-        <div class="links">
-            <ul>
-                <li><a class="active" href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a class="active" href="#">Главное</a></li>
+            <li><a href="#">Комиксы</a></li>
+            <li><a href="#">Учебники</a></li>
+        </ul>
         <div class="profile-menu">
             {% if request.user.is_authenticated %}
                 <button>{{ request.user.username }}</button>
                 <div class="profile-dropdown">
-                    <a href="#">Profile</a>
-                    <a href="{% url 'logout' %}">Logout</a>  <!-- Ссылка на выход -->
+                    <a href="#">Профиль</a>
+                    <a href="{% url 'logout' %}">Выйти</a>
                 </div>
             {% else %}
-                <a href="{% url 'login' %}" class="login-button">Login</a> <!-- Кнопка для входа -->
+                <a href="{% url 'login' %}" class="login-button">Войти</a>
             {% endif %}
         </div>
     </nav>
-
-    <div class="home-content">
-        <div class="home-container">
-            <h1>Landing Page</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum animi ad, voluptatem sapiente molestias consequuntur reprehenderit eaque libero deserunt nemo, numquam beatae! Repellendus est beatae voluptate quas deleniti quisquam quibusdam?</p>
-            <button id="try-now">Try now</button> 
-            <button id="explore">EXPLORE</button>
+    <div class="nav-divider"></div> <!-- Волнистая линия под шапкой -->
+    
+    <!-- Раздел с книгами -->
+    <div class="books-section">
+        <h2>Топ-10 за неделю</h2>
+        <button class="scroll-button scroll-left">&#60;</button>
+        <div class="books-container">
+            <!-- Книги с фиксированным размером -->
+            <div class="book">
+                <img src="{% static 'images/book1.jpg' %}" alt="Book 1">
+                <div class="overlay">
+                    <div>Название: Книга 1</div>
+                    <div>Автор: Автор 1</div>
+                    <div>Издательство: Издательство 1</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
+            <div class="book">
+                <img src="{% static 'images/book2.jpg' %}" alt="Book 2">
+                <div class="overlay">
+                    <div>Название: Книга 2</div>
+                    <div>Автор: Автор 2</div>
+                    <div>Издательство: Издательство 2</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
+            <div class="book">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
+                <div class="overlay">
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
+            <div class="book">
+                <img src="{% static 'images/book4.jpg' %}" alt="Book 4">
+                <div class="overlay">
+                    <div>Название: Книга 4</div>
+                    <div>Автор: Автор 4</div>
+                    <div>Издательство: Издательство 4</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
+            <div class="book">
+                <img src="{% static 'images/book5.jpg' %}" alt="Book 5">
+                <div class="overlay">
+                    <div>Название: Книга 5</div>
+                    <div>Автор: Автор 5</div>
+                    <div>Издательство: Издательство 5</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
+            <div class="book">
+                <img src="{% static 'images/book6.jpg' %}" alt="Book 6">
+                <div class="overlay">
+                    <div>Название: Книга 6</div>
+                    <div>Автор: Автор 6</div>
+                    <div>Издательство: Издательство 6</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
+            <div class="book">
+                <img src="{% static 'images/book7.jpg' %}" alt="Book 7">
+                <div class="overlay">
+                    <div>Название: Книга 7</div>
+                    <div>Автор: Автор 7</div>
+                    <div>Издательство: Издательство 7</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
+            <div class="book">
+                <img src="{% static 'images/book8.jpg' %}" alt="Book 8">
+                <div class="overlay">
+                    <div>Название: Книга 8</div>
+                    <div>Автор: Автор 8</div>
+                    <div>Издательство: Издательство 8</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
+            <div class="book">
+                <img src="{% static 'images/book9.jpg' %}" alt="Book 9">
+                <div class="overlay">
+                    <div>Название: Книга 9</div>
+                    <div>Автор: Автор 9</div>
+                    <div>Издательство: Издательство 9</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
+            <div class="book">
+                <img src="{% static 'images/book10.jpg' %}" alt="Book 10">
+                <div class="overlay">
+                    <div>Название: Книга 10</div>
+                    <div>Автор: Автор 10</div>
+                    <div>Издательство: Издательство 10</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div>
         </div>
+        <button class="scroll-button scroll-right">&#62;</button>
     </div>
-
-    <!-- Уведомление о успешном входе -->
-    {% if messages %}
-        <div class="notification">
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
-        </div>
-    {% endif %}
 </header>
 
 <script>
-    // Уведомление будет отображаться, если оно присутствует
-    const notification = document.querySelector('.notification');
-    if (notification) {
-        notification.style.display = 'block'; // Показываем уведомление
-        setTimeout(() => {
-            notification.style.opacity = '0'; // Скрываем уведомление через 3 секунды
-        }, 3000);
-    }
+    // Функции для прокрутки с помощью стрелочек
+    const scrollContainer = document.querySelector('.books-container');
+    const leftButton = document.querySelector('.scroll-left');
+    const rightButton = document.querySelector('.scroll-right');
+
+    leftButton.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: -400, behavior: 'smooth' }); // Увеличено значение прокрутки
+    });
+
+    rightButton.addEventListener('click', () => {
+        scrollContainer.scrollBy({ left: 400, behavior: 'smooth' }); // Увеличено значение прокрутки
+    });
 </script>
 
 </body>
