@@ -1,5 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -78,10 +77,6 @@
             border: 2px solid var(--text-color--);
         }
 
-        .active {
-            border: 2px solid var(--text-color--);
-        }
-
         .books-section {
             margin-top: 2rem;
             padding: 0 5rem;
@@ -110,7 +105,7 @@
             border-radius: 10px;
             flex: none;
             position: relative;
-            overflow: hidden; /* Обеспечиваем скрытие всего, что выходит за границы контейнера */
+            overflow: hidden;
         }
 
         .book img {
@@ -246,7 +241,7 @@
     <nav>
         <div class="site-title">Студбук</div>
         <ul>
-            <li><a class="active" href="#">Главное</a></li>
+            <li><a href="#">Главное</a></li>
             <li><a href="#">Комиксы</a></li>
             <li><a href="#">Учебники</a></li>
         </ul>
@@ -263,7 +258,7 @@
         </div>
     </nav>
     <div class="nav-divider"></div>
-    
+
     <div class="books-section">
         <h2>Топ-10 за неделю</h2>
         <button class="scroll-button scroll-left">&#60;</button>
@@ -380,17 +375,17 @@
     </div>
 </header>
 <script>
-    // Функции для прокрутки с помощью стрелочек
+    // Scroll buttons
     const scrollContainer = document.querySelector('.books-container');
     const leftButton = document.querySelector('.scroll-left');
     const rightButton = document.querySelector('.scroll-right');
 
     leftButton.addEventListener('click', () => {
-        scrollContainer.scrollBy({ left: -400, behavior: 'smooth' }); // Увеличено значение прокрутки
+        scrollContainer.scrollBy({ left: -400, behavior: 'smooth' });
     });
 
     rightButton.addEventListener('click', () => {
-        scrollContainer.scrollBy({ left: 400, behavior: 'smooth' }); // Увеличено значение прокрутки
+        scrollContainer.scrollBy({ left: 400, behavior: 'smooth' });
     });
 </script>
 
