@@ -1,4 +1,5 @@
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -204,6 +205,11 @@
             min-width: 160px;
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
+            border: 2px solid var(--text-color--);
+            border-radius: 5px;
+            opacity: 0; /* Добавляем начальное состояние */
+            transform: translateY(-10px); /* Смещаем вверх для эффекта выпадания */
+            transition: opacity 0.3s ease, transform 0.3s ease; /* Плавные переходы */
         }
 
         .profile-dropdown a {
@@ -219,6 +225,8 @@
 
         .profile-menu:hover .profile-dropdown {
             display: block;
+            opacity: 1; /* Показываем меню */
+            transform: translateY(0); /* Сдвигаем на место */
         }
 
         .login-button {
@@ -258,6 +266,7 @@
         </div>
     </nav>
     <div class="nav-divider"></div>
+
 
     <div class="books-section">
         <h2>Топ-10 за неделю</h2>
