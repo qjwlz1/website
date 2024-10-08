@@ -9,12 +9,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
 
         :root {
-            --text-color--: #1d3c19; /* Цвет текста и блоков */
-            --text-color-dark--: #009966;
+            --text-color--: hwb(120.63deg 61.45% 0%);
+            --text-color-dark--: hwb(120.63deg 61.45% 0%);
             --background-color--: #000000;
-            --button-bg--: rgba(255, 255, 255, 0.3); /* Стрелки - белые с прозрачностью */
-            --button-hover--: rgba(255, 255, 255, 0.7); /* При наведении меньше прозрачности */
-            --overlay-color--: rgba(0, 0, 0, 0.5); /* Цвет затемнения */
+            --button-bg--: rgb(234 234 234 / 65%);
+            --button-hover--: rgba(255, 255, 255, 0.7);
+            --overlay-color--: rgba(0, 0, 0, 0.66);
         }
 
         * {
@@ -30,60 +30,63 @@
             color: var(--text-color--);
         }
 
-        /* Шапка */
         nav {
             width: 100%;
             padding: 2rem 5rem;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Разделение профиля и навигации */
+            justify-content: flex-start;
             background-color: var(--background-color--);
             position: relative;
-            z-index: 1; /* Для отображения над волнистой линией */
+            z-index: 1;
         }
 
-        /* Волнистая линия */
+        .site-title {
+            font-size: 24px;
+            color: var(--text-color--);
+            margin-right: 2rem;
+        }
+
         .nav-divider {
-            width: 100%; /* Занимает всю ширину */
-            height: 10px; /* Высота волнистой линии */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10"><path d="M0,0 C20,10 40,0 60,10 C80,20 100,10 100,0 Z" fill="%231d3c19"/></svg>'); /* Цвет линии изменён */
+            width: 100%;
+            height: 10px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10"><path d="M0,0 C20,10 40,0 60,10 C80,20 100,10 100,0 Z" fill="%231d3c19"/>');
             background-size: cover;
-            margin-top: -10px; /* Поднимаем волнистую линию к шапке */
+            margin-top: -10px;
         }
 
         ul {
             list-style: none;
             display: flex;
             gap: 2rem;
-            margin-right: auto; /* Сместить меню влево */
+            margin-right: auto;
         }
 
         li a {
             color: var(--text-color--);
             font-size: 18px;
             font-weight: 600;
-            text-decoration: none; /* Убрали подчеркивание */
+            text-decoration: none;
             padding: 10px 15px;
             transition: 0.3s;
-            border-radius: 5px; /* Закругление кнопок */
-            border: 2px solid transparent; /* Граница кнопок */
+            border-radius: 5px;
+            border: 2px solid transparent;
         }
 
         li a:hover {
             color: var(--text-color-dark--);
-            border: 2px solid var(--text-color--); /* Граница при наведении */
+            border: 2px solid var(--text-color--);
         }
 
         .active {
-            border: 2px solid var(--text-color--); /* Граница для активной кнопки */
+            border: 2px solid var(--text-color--);
         }
 
-        /* Стили для книг и стрелок */
         .books-section {
             margin-top: 2rem;
             padding: 0 5rem;
             position: relative;
-            max-width: 90%; /* Уменьшить ширину блока */
+            max-width: 90%;
             margin-left: auto;
             margin-right: auto;
         }
@@ -96,17 +99,18 @@
 
         .books-container {
             display: flex;
-            gap: 20px; /* Расстояние между книгами увеличено */
+            gap: 20px;
             overflow: hidden;
         }
 
         .book {
-            width: 200px; /* Уменьшение ширины книги */
-            height: 300px; /* Уменьшение высоты книги */
+            width: 200px;
+            height: 300px;
             background-color: var(--text-color-dark--);
             border-radius: 10px;
             flex: none;
-            position: relative; /* Для позиционирования затемнения */
+            position: relative;
+            overflow: hidden; /* Обеспечиваем скрытие всего, что выходит за границы контейнера */
         }
 
         .book img {
@@ -114,10 +118,9 @@
             height: 100%;
             object-fit: cover;
             border-radius: 10px;
-            transition: transform 0.3s; /* Плавный эффект увеличения при наведении */
+            transition: transform 0.3s;
         }
 
-        /* Затемнение для книги */
         .overlay {
             position: absolute;
             top: 0;
@@ -129,31 +132,29 @@
             transition: opacity 0.3s ease;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end; /* Выравнивание содержимого вниз */
-            align-items: flex-start; /* Выравнивание текста по левому краю */
-            text-align: left; /* Выравнивание текста по левому краю */
+            justify-content: flex-end;
+            align-items: flex-start;
+            text-align: left;
             color: white;
             padding: 10px;
         }
 
-        /* Открытое описание */
         .book:hover .overlay {
-            opacity: 1; /* Показываем затемнение при наведении */
+            opacity: 1;
         }
 
         .book:hover img {
-            transform: scale(1.05); /* Увеличиваем изображение при наведении */
+            transform: scale(1.05);
         }
 
-        /* Кнопка "Читать" */
         .read-button {
             background-color: var(--text-color--);
             color: #000;
             border: none;
-            padding: 10px 0; /* Вертикальные отступы */
-            border-radius: 10px; /* Закругление углов */
+            padding: 10px 0;
+            border-radius: 10px;
             cursor: pointer;
-            width: 100%; /* Занимает всю ширину блока */
+            width: 100%;
             transition: background-color 0.3s;
         }
 
@@ -161,36 +162,35 @@
             background-color: var(--text-color-dark--);
         }
 
-        /* Прозрачные стрелки */
         .scroll-button {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: none; /* Убираем фон */
+            background: none;
             border: none;
-            font-size: 2rem; /* Размер стрелки */
-            color: var(--button-bg--); /* Белая галка с прозрачностью */
+            font-size: 2rem;
+            color: var(--button-bg--);
             cursor: pointer;
-            z-index: 2; /* Повыше, чем книги */
+            z-index: 2;
             transition: 0.3s;
         }
 
         .scroll-button:hover {
-            color: var(--button-hover--); /* Меньше прозрачности при наведении */
+            color: var(--button-hover--);
         }
 
         .scroll-left {
-            left: 10px; /* Расположение стрелки слева */
+            left: 10px;
         }
 
         .scroll-right {
-            right: 10px; /* Расположение стрелки справа */
+            right: 10px;
         }
 
-        /* Стили для выпадающего меню профиля */
         .profile-menu {
             position: relative;
             display: inline-block;
+            margin-left: auto;
         }
 
         .profile-menu button {
@@ -226,7 +226,6 @@
             display: block;
         }
 
-        /* Стили для кнопки "Войти" */
         .login-button {
             background-color: var(--text-color--);
             color: #000;
@@ -239,13 +238,13 @@
         .login-button:hover {
             background-color: var(--text-color-dark--);
         }
-
     </style>
 </head>
 <body>
 
 <header>
     <nav>
+        <div class="site-title">Студбук</div>
         <ul>
             <li><a class="active" href="#">Главное</a></li>
             <li><a href="#">Комиксы</a></li>
@@ -263,14 +262,12 @@
             {% endif %}
         </div>
     </nav>
-    <div class="nav-divider"></div> <!-- Волнистая линия под шапкой -->
+    <div class="nav-divider"></div>
     
-    <!-- Раздел с книгами -->
     <div class="books-section">
         <h2>Топ-10 за неделю</h2>
         <button class="scroll-button scroll-left">&#60;</button>
         <div class="books-container">
-            <!-- Книги с фиксированным размером -->
             <div class="book">
                 <img src="{% static 'images/book1.jpg' %}" alt="Book 1">
                 <div class="overlay">
@@ -299,73 +296,89 @@
                 </div>
             </div>
             <div class="book">
-                <img src="{% static 'images/book4.jpg' %}" alt="Book 4">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
                 <div class="overlay">
-                    <div>Название: Книга 4</div>
-                    <div>Автор: Автор 4</div>
-                    <div>Издательство: Издательство 4</div>
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
                     <button class="read-button">Читать</button>
                 </div>
             </div>
             <div class="book">
-                <img src="{% static 'images/book5.jpg' %}" alt="Book 5">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
                 <div class="overlay">
-                    <div>Название: Книга 5</div>
-                    <div>Автор: Автор 5</div>
-                    <div>Издательство: Издательство 5</div>
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
                     <button class="read-button">Читать</button>
                 </div>
             </div>
             <div class="book">
-                <img src="{% static 'images/book6.jpg' %}" alt="Book 6">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
                 <div class="overlay">
-                    <div>Название: Книга 6</div>
-                    <div>Автор: Автор 6</div>
-                    <div>Издательство: Издательство 6</div>
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
                     <button class="read-button">Читать</button>
                 </div>
             </div>
             <div class="book">
-                <img src="{% static 'images/book7.jpg' %}" alt="Book 7">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
                 <div class="overlay">
-                    <div>Название: Книга 7</div>
-                    <div>Автор: Автор 7</div>
-                    <div>Издательство: Издательство 7</div>
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
                     <button class="read-button">Читать</button>
                 </div>
             </div>
             <div class="book">
-                <img src="{% static 'images/book8.jpg' %}" alt="Book 8">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
                 <div class="overlay">
-                    <div>Название: Книга 8</div>
-                    <div>Автор: Автор 8</div>
-                    <div>Издательство: Издательство 8</div>
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
                     <button class="read-button">Читать</button>
                 </div>
             </div>
             <div class="book">
-                <img src="{% static 'images/book9.jpg' %}" alt="Book 9">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
                 <div class="overlay">
-                    <div>Название: Книга 9</div>
-                    <div>Автор: Автор 9</div>
-                    <div>Издательство: Издательство 9</div>
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
                     <button class="read-button">Читать</button>
                 </div>
             </div>
             <div class="book">
-                <img src="{% static 'images/book10.jpg' %}" alt="Book 10">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
                 <div class="overlay">
-                    <div>Название: Книга 10</div>
-                    <div>Автор: Автор 10</div>
-                    <div>Издательство: Издательство 10</div>
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div> <div class="book">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
+                <div class="overlay">
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
+                    <button class="read-button">Читать</button>
+                </div>
+            </div> <div class="book">
+                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
+                <div class="overlay">
+                    <div>Название: Книга 3</div>
+                    <div>Автор: Автор 3</div>
+                    <div>Издательство: Издательство 3</div>
                     <button class="read-button">Читать</button>
                 </div>
             </div>
+            <!-- Добавьте дополнительные книги по мере необходимости -->
         </div>
         <button class="scroll-button scroll-right">&#62;</button>
     </div>
 </header>
-
 <script>
     // Функции для прокрутки с помощью стрелочек
     const scrollContainer = document.querySelector('.books-container');
