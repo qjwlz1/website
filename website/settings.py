@@ -86,8 +86,10 @@ USE_I18N = True
 USE_TZ = True
 
 # Статические файлы (CSS, JavaScript, изображения)
+
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Это нужно для collectstatic
+STATICFILES_DIRS = [BASE_DIR / "static"]  # Adjust this path based on where your static files are stored
+
 
 # Медиа файлы (если используешь загрузку файлов)
 MEDIA_URL = '/media/'
