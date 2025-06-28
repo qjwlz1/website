@@ -1,4 +1,5 @@
-[Русский](/README.md) | [English](/README.en.md)
+[Русский](#russian-version) | [English](#english-version)
+<a name="russian-version"></a>
 # Проект магазина кроссовок "Vibe"
 
 ## 🚀 Описание проекта
@@ -104,6 +105,8 @@
 ## 📄 Лицензия
 Этот проект распространяется под лицензией [MIT License](https://opensource.org/licenses/MIT).
 ---
+<a name="english-version"></a>
+
 # "Vibe" Sneaker Store Project
 
 ## 🚀 Project Description
