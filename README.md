@@ -1,3 +1,4 @@
+[Русский](/README.md) | [English](/README.en.md)
 # Проект магазина кроссовок "Vibe"
 
 ## 🚀 Описание проекта
@@ -102,3 +103,108 @@
 
 ## 📄 Лицензия
 Этот проект распространяется под лицензией [MIT License](https://opensource.org/licenses/MIT).
+
+# "Vibe" Sneaker Store Project
+
+## 🚀 Project Description
+This is a web application—the foundation for an online store, built with the powerful **Django** framework. The project demonstrates key e-commerce functionalities, including a robust user registration and login system with database integration, as well as displaying products from the database. A fully functional shopping cart has been implemented, allowing users to add and remove items. At this stage, product data is managed directly within the code, which lays a solid foundation for future implementation of a full-fledged admin panel and a complete checkout cycle.
+
+**Note:** The live application and its user interface are in Russian.
+
+## ✨ Key Features
+* **Authentication System:** Users can register and log in using a username and password.
+* **User Profile:** Authenticated users get access to their profile and a **"Favorites"** section to save their preferred items.
+* **Shopping Cart:**
+    * Add products to the cart with a specified quantity.
+    * View, update quantities, and remove items from the cart.
+    * A special message is displayed when the cart is empty.
+* **Access Control:** Three user roles are implemented (Administrator, User, Guest) with different levels of access to site functions.
+* **Data Security:** The application is protected against common attacks, including CSRF.
+
+## 🎨 Design and User Interface
+The project's design is executed in a modern, dynamic, and graphical style that captures attention and reflects a "streetwear" aesthetic:
+* **Color Palette:** It uses a high-contrast combination of vibrant accents with black and white. Each product page can have its own color scheme.
+* **Style & Graphics:** The design combines minimalist product cards with bold, abstract background patterns and graphic elements.
+* **Typography:** The use of large, expressive fonts gives the interface a unique identity.
+* **UI Elements:** Accentuated buttons, icons (e.g., for "Favorites"), and cards with rounded corners create a modern and user-friendly interface.
+* **Responsiveness:** **It is important to note that the current version of the project is optimized for desktop displays with a 16:9 aspect ratio. Responsiveness for mobile devices and other resolutions is not yet implemented and is a planned feature for future development.**
+
+## 📸 Gallery / Screenshots
+Here you can see what the user interface of the project looks like:
+
+### Part of the Main Page
+![Main Page](https://i.imgur.com/DIVIEY8.png)
+
+### User Profile
+![User Profile](https://i.imgur.com/3D0aKqW.png)
+
+### Shopping Cart
+![Shopping Cart](https://i.imgur.com/EWz0HSN.png)
+
+### Footer
+![Footer](https://i.imgur.com/CpjKGJE.png)
+
+## 🛠️ Tech Stack
+* **Programming Language:** Python 3.12
+* **Framework:** Django
+* **Database:** SQLite (built-in)
+* **Frontend:** HTML5, CSS3 (custom static files), JavaScript
+* **Version Control:** Git, GitHub
+* **Deployment:** PythonAnywhere
+
+## 🖥️ Live Application Link
+You can view and test a live version of the project at the following link:
+[https://qjwlz.pythonanywhere.com/](https://qjwlz.pythonanywhere.com/)
+
+---
+
+### 🌐 Alternative Deployment: Local Hosting
+As an alternative to cloud hosting, the project was successfully deployed on a local PC using a custom domain. This experience provided deeper insight into the principles of web servers and network infrastructure.
+
+**The main deployment steps included:**
+* **Configuring the Nginx web server** for serving static files and proxying requests to the application.
+* **Using Gunicorn** as a WSGI server to handle HTTP requests.
+* **Configuring the domain name** and DNS records.
+* **Setting up firewall rules** to open the necessary ports.
+* **Ensuring site access via the custom domain qjwlz.ru.**
+* **Maintaining server uptime** for continuous application availability.
+* **Using Supervisor** for managing the application processes.
+
+This deployment demonstrates an understanding of the full web application lifecycle, from code to network accessibility.
+
+---
+
+## 🔧 Installation and Local Setup
+Follow these instructions to run the project on your computer:
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/qjwlz1/website.git](https://github.com/qjwlz1/website.git)
+    ```
+2.  **Navigate to the project directory:**
+    ```bash
+    cd website
+    ```
+3.  **Create and activate a virtual environment:**
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+4.  **Install all necessary dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+5.  **Apply database migrations:**
+    ```bash
+    python manage.py migrate
+    ```
+6.  **Run the local Django server:**
+    ```bash
+    python manage.py runserver
+    ```
+    The application will now be available at `http://127.0.0.1:8000/` in your browser.
+
+## 👥 Author
+* **Developer:** qjwlz1
+
+## 📄 License
+This project is distributed under the [MIT License](https://opensource.org/licenses/MIT).
