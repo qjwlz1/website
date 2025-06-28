@@ -1,0 +1,519 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
+
+        /* Сброс стилей */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Общие стили */
+        body {
+            font-family: 'Unbounded', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding-top: 30px;
+        }
+
+        /* Задний фон */
+        .background-svg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .background-svg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Шапка */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10%;
+            background-color: rgba(0, 192, 192, 0.7);
+            border-radius: 50px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            max-height: 60px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .logo {
+            position: absolute;
+            display: block;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            width: 120px;
+        }
+
+        .logo img {
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        .navbar {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .profile-btn {
+            background-color: #fff;
+            color: #00c0c0;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            max-width: 150px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .profile-btn:hover {
+            background-color: #00c0c0;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Основной контент */
+        .cart-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 80vh;
+            padding: 50px 0px;
+            width: 100%;
+            max-width: 1282px;
+            margin: 0 auto;
+        }
+
+        /* Блок с товарами */
+        .cart-items {
+            padding: 20px;
+            position: relative; /* Чтобы кнопка была позиционирована внутри контейнера */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            text-align: left;
+            width: 770px;
+            max-width: 770px;
+            margin-right: 66px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Блок с суммой заказа */
+        .cart-summary {
+            flex: 0 1 40%;
+            padding: 20px;
+            background: rgb(255, 255, 255);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(2, 230, 238, 0.842);
+            text-align: center;
+            width: 450px;
+            height: 200px;
+        }
+
+        .cart-items h3 {
+            font-size: 24px;
+            color: #000000;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            padding-bottom: 20px;
+            margin-bottom: 10px; /* Добавляем отступ снизу */
+        }
+
+        .cart-item img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+            margin-left: 20px;
+            margin-bottom: 10px; /* Добавляем отступ снизу */
+        }
+
+        .cart-item-info h4 {
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        .cart-item-info p {
+            font-size: 16px;
+            margin-bottom: 10px; /* Добавляем отступ снизу */
+        }
+
+        .cart-summary h4 {
+            font-size: 20px;
+            color: #000;
+            text-align: left;
+            margin-bottom: 20px;
+            height: 20px;
+        }
+
+        .cart-summary .total {
+            font-size: 20px;
+            font-weight: bold;
+            font-weight: lighter;
+            margin: 20px 0;
+            text-align: right;
+            color: #000;
+        }
+        .cart-item-text {
+        margin-right: 40px; /* Добавим отступ справа, чтобы кнопка не мешала */
+    }
+
+        .order-btn {
+            background-color: #000;
+            color: white;
+            padding: 15px;
+            border-radius: 50px;
+            text-align: center;
+            font-weight: lighter;
+            cursor: pointer;
+            width: 100%;
+            max-width: 400px;
+            max-height: 60px;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-block;
+            font-size: 20px;
+        }
+
+        .order-btn:hover {
+            transform: scale(1.05);
+        }
+
+
+        /* Подвал */
+        .footer {
+            background-color: #111;
+            color: #fff;
+            padding: 40px 10%;
+            height: 671px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-logo img {
+            width: 160px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .footer-info {
+            max-width: 350px;
+            text-align: left;
+        }
+
+        .footer-info p {
+            margin: 8px 0;
+            font-size: 1.2rem;
+        }
+
+        .footer-info .socials {
+            margin-top: 15px;
+        }
+
+        .footer-info .social-link {
+            color: #00c0c0;
+            text-decoration: none;
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-info .social-link:hover {
+            text-decoration: underline;
+        }
+
+        .footer-img img {
+            width: 745px;
+            height: 638px;
+            object-fit: cover;
+        }
+
+        .footer-info p:first-child {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #00c0c0;
+        }
+        /* Стили для кнопки удаления всех товаров */
+        .clear-cart-btn {
+            position: absolute;
+            bottom: 45px;
+            right: 6px;
+            background-color: #00c0c0;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Стили для кнопки при наведении */
+        .clear-cart-btn:hover {
+            background-color: #d32f2f;
+            transform: scale(1.05);
+        }
+        @media (max-width: 768px) {
+        .logo {
+            display: none; /* Скрываем логотип */
+        }
+        .header {
+                padding: 15px;
+            }
+
+            .navbar a {
+                font-size: 0.9rem;
+                padding: 6px 10px;
+            }
+
+            .profile-btn {
+                font-size: 1rem;
+                padding: 6px 10px;
+                max-width: 100px;
+            }
+
+            .profile-card {
+                padding: 20px;
+                width: 100%;
+            }
+            /* Уменьшаем размеры элементов для мобильных устройств */
+            .cart-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+            }
+
+            .cart-items {
+                width: 100%;
+                max-width: none;
+                margin-right: 0;
+                padding: 10px;
+            }
+
+            .cart-summary {
+                width: 100%;
+                margin-top: 20px;
+                padding: 20px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .cart-item img {
+                width: 150px;
+                height: 150px;
+            }
+
+            .cart-item-info {
+                margin-left: 0;
+                text-align: center;
+            }
+
+            .order-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .clear-cart-btn {
+                bottom: 8px;
+                right: 8px;
+                padding: 8px 12px;
+            }
+            .footer {
+                    padding: 20px 5%;
+                    flex-direction: column;
+                    align-items: center;
+                    height: auto;
+                }
+
+                .footer-logo img {
+                    width: 120px;
+                }
+
+                .footer-info {
+                    text-align: center;
+                    margin-top: 20px;
+                }
+
+                .footer-img img {
+                    width: 100%;
+                    height: auto;
+                }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Задний фон -->
+    <div class="background-svg">
+        <img src="{% static 'images/background.png' %}" alt="Фон">
+    </div>
+
+    <!-- Шапка -->
+    <header class="header">
+        <div class="navbar">
+            <a href="{% url 'index' %}" class="nav-link">Главная</a>
+            <a href="{% url 'cart' %}" class="nav-link">Корзина</a>
+        </div>
+        <a href="{% if user.is_authenticated %}{% url 'profile' %}{% else %}{% url 'login' %}{% endif %}" class="profile-btn">
+            {% if user.is_authenticated %}
+                {{ user.username|truncatechars:12 }}
+            {% else %}
+                Войти
+            {% endif %}
+        </a>
+    </header>
+    <a href="{% url 'index' %}" class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Логотип">
+    </a>
+
+    <!-- Основной контент -->
+   <!-- Основной контент -->
+   <main class="cart-container">
+    <!-- Список товаров -->
+<!-- Кнопка удаления всех товаров из корзины -->
+<div class="cart-items">
+    <h3>Корзина</h3>
+    {% if cart_items %}
+    <div class="cart-items-list">
+        {% for item in cart_items %}
+            <div class="cart-item">
+                <img src="{% static item.sneaker.image %}" alt="{{ item.sneaker.name }}">
+                <p>{{ item.sneaker.name }}</p>
+                <p>Количество: {{ item.quantity }} </p>
+                <!--<p>Размер: {{ item.size }}</p> Добавлен вывод размера -->
+                <p>Цена: {{ item.sneaker.price }} ₽ </p>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Кнопка для удаления всех товаров из корзины -->
+    <a href="{% url 'clear_cart' %}" class="clear-cart-btn">Удалить все товары</a>
+    {% else %}
+    <p>Ваша корзина пуста.</p>
+    {% endif %}
+</div>
+
+
+    
+    <!-- Сумма заказа -->
+    <div class="cart-summary">
+        <h4>Сумма заказа</h4>
+        <p class="total">{{ total_price }} ₽</p>
+    
+        <!-- Кнопка оформления заказа -->
+        <a href="{% url 'order' %}" class="order-btn">Оформить заказ</a>
+    </div>
+</main>
+
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="footer-logo">
+            <img src="{% static 'images/flogo.png' %}" alt="Логотип VIBE">
+        </div>
+        <div class="footer-info">
+            <p>Контакты:</p>
+            <p>Email: qjwlz@ya.ru</p>
+            <p>Telegram: @qjwlq</p>
+            <p>Спасибо что зашли на наш сайт (〃￣︶￣)人(￣︶￣〃)</p>
+            <div class="socials">
+                <a href="https://t.me/qjwlq" class="social-link">Telegram</a>
+            </div>
+        </div>
+        <div class="footer-img">
+            <img src="{% static 'images/f.png' %}" alt="Изображение футера">
+        </div>
+    </footer>
+    <script>// Ищем кнопку "В корзину"
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartBtn = document.querySelector('#cart-btn');
+            const sneakerColorCart = cartBtn.dataset.color;
+            let urlTemplate = cartBtn.dataset.url; 
+
+            cartBtn.addEventListener('click', function() {
+                const url = urlTemplate.replace('DYNAMIC', sneakerColorCart);
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.is_in_cart) {
+                        cartBtn.classList.add('active');
+                        cartBtn.textContent = "Добавлено в корзину";
+                    } else {
+                        cartBtn.classList.remove('active');
+                        cartBtn.textContent = "В корзину";
+                    }
+                })
+                .catch(error => console.error('Ошибка:', error));
+            });
+        });
+
+        </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import CustomUser  # Пример: добавляем модель пользователя
-
-# Регистрируем модель в админке
+from .models import CustomUser
 admin.site.register(CustomUser)
+from .models import Sneaker
+
+admin.site.register(Sneaker)

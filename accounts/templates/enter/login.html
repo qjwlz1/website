@@ -1,134 +1,184 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>Login Form</title>
+    <title>VIBE | Вход</title>
     <style>
+        
+        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
         body {
-            width: 100%;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            font-family: 'Unbounded', sans-serif;
+            background-color: white; 
         }
-        .bgvideo {
+
+        .background-svg {
             position: fixed;
             top: 0;
             left: 0;
-            min-width: 100%;
-            min-height: 100%;
+            width: 100%;
+            height: 100%;
             z-index: -1;
+        }
+
+        .background-svg img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
-        .wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgb(241, 241, 241);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-        }
-        .wrapper h2 {
-            font-size: 30px;
-            color: #ffffff;
-            margin-bottom: 20px; /* Увеличиваем отступ снизу для заголовка */
-        }
-        .input-field {
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             position: relative;
-            margin: 15px 0;
+            z-index: 1;
         }
-        .input-field input {
-            width: 90%;
-            padding: 20px;
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            width: 450px;
+            max-width: 90%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-box h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 89%;
+            padding: 15px;
             border-radius: 10px;
-            border: 2px solid #ffffff;
+            border: 2px solid rgba(0, 0, 0, 0.2);
             background: transparent;
-            color: #ffffff;
+            color: black;
+            font-size: 16px;
+            outline: none;
         }
-        .input-field input.error {
-            border: 2px solid red;
+
+        .input-group input::placeholder {
+            color: rgba(0, 0, 0, 0.5);
         }
-        .input-field input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        .input-field i {
+
+        .input-group i {
             position: absolute;
             top: 50%;
-            right: 10px;
+            right: 15px;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(0, 0, 0, 0.5);
         }
+
         .error-message {
             color: red;
+            font-size: 14px;
             margin-bottom: 10px;
         }
-        button.login {
+
+        .login-btn {
             width: 100%;
-            height: 40px;
-            border-radius: 40px;
-            background-color: #ffffff;
+            padding: 12px;
+            border-radius: 50px;
+            background-color: #0FC1C1;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.4s ease;
+            font-size: 18px;
+            font-weight: bold;
+            color: rgb(255, 255, 255);
+            transition: 0.3s;
         }
-        button.login:hover {
-            background-color: rgba(255, 255, 255, 0.5);
+
+        .login-btn:hover {
+            background-color: rgba(15, 193, 193, 0.8);
         }
+
         .extra-links {
-            margin-top: 20px;
-            color: #ffffff; /* Устанавливаем цвет текста */
-            text-align: center; /* Центрируем текст */
+            margin-top: 15px;
+            font-size: 14px;
         }
+
         .extra-links a {
-            color: #ffffff;
+            color: black;
             text-decoration: none;
-            display: inline-block; /* Убираем блочное отображение */
-            margin: 10px 0;
         }
+
         .extra-links a:hover {
             text-decoration: underline;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 120px;
+            height: auto;
+            z-index: 2;
+        }
+
+        .logo img {
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
-    <video autoplay loop muted class="bgvideo" id="bgvideo">
-        <source src="{% static 'videos/ingame.mp4' %}" type="video/mp4">
-    </video>
-    <div class="wrapper">
-        <h2>Welcome</h2>
 
-        <!-- Форма -->
-        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
-            <div class="input-field">
-                <input type="text" id="username" name="username" placeholder="Username or Email" required>
-                <i class='bx bxs-user'></i>
-            </div>
-            <div class="input-field">
-                <input type="password" id="password" name="password" placeholder="Password" required>
-                <i class='bx bxs-lock-alt'></i>
-            </div>
-            {% if error %}
-                <div id="error-message" class="error-message">{{ error }}</div>
-            {% endif %}
-            <button type="submit" class="login">Login</button>
-        </form>
+    <!-- фоновое изображение -->
+    <div class="background-svg">
+        <img src="{% static 'images/background.png' %}" alt="Фон">
+    </div>
 
-        <!-- Дополнительные ссылки -->
-        <div class="extra-links">
-            <p>If you don't have an account, <a href="{% url 'register' %}">register here</a>.</p>
+    <!-- логотип -->
+    <a href="{% url 'index' %}" class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="VIBE">
+    </a>
+
+    <!-- форма входа -->
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Вход в аккаунт</h2>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" name="username" placeholder="Логин или почта" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Пароль" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                {% if error %}
+                    <div class="error-message">{{ error }}</div>
+                {% endif %}
+                <button type="submit" class="login-btn">Войти</button>
+            </form>
+            <div class="extra-links">
+                <p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь здесь</a>.</p>
+            </div>
         </div>
     </div>
+
 </body>
 </html>

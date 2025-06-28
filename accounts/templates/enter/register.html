@@ -1,135 +1,242 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
+    {% load static i18n %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>Registration Form</title>
+    <title>VIBE | Регистрация</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
         body {
-            width: 100%;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            font-family: 'Unbounded', sans-serif;
+            background-color: white;
         }
-        .bgvideo {
+
+        .background-svg {
             position: fixed;
             top: 0;
             left: 0;
-            min-width: 100%;
-            min-height: 100%;
+            width: 100%;
+            height: 100%;
             z-index: -1;
+        }
+
+        .background-svg img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
-        .wrapper {
+
+        .logo {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgb(241, 241, 241);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            top: 20px;
+            left: 20px;
+            width: 120px;
+            height: auto;
+            z-index: 2;
         }
-        .wrapper h2 {
-            font-size: 30px;
-            color: #ffffff;
-        }
-        .input-field {
-            position: relative;
-            margin: 15px 0;
-            text-align: left; /* Выравнивание текста по левому краю */
-        }
-        .input-field input {
-            width: 90%;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #ffffff;
-            background: transparent;
-            color: #ffffff;
-        }
-        .input-field input.error {
-            border: 2px solid red; /* Красная рамка для полей с ошибками */
-        }
-        .input-field input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        .input-field i {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
-        }
-        .error-message {
-            color: red; /* Цвет текста ошибки */
-            margin-top: 5px; /* Отступ сверху */
-            font-size: 0.9em; /* Уменьшаем размер текста для ошибок */
-            text-align: left; /* Выравнивание текста по левому краю */
-        }
-        button.register {
+
+        .logo img {
             width: 100%;
-            height: 40px;
-            border-radius: 40px;
-            background-color: #ffffff;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .register-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            width: 450px;
+            max-width: 90%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .register-box h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+
+
+        .error-message {
+            position: absolute;
+            color: red;
+            font-size: 0.875rem;
+            top: 100%; /* Отображаем сообщение сразу под полем ввода */
+            left: 0;
+            width: 100%;
+            margin-top: 5px;
+            padding: 0 10px; /* Паддинг для выравнивания текста */
+            box-sizing: border-box; /* Чтобы паддинги не выходили за пределы контейнера */
+        }
+
+       
+
+
+        .input-group input {
+            width: 89%;
+            padding: 15px;
+            padding-right: 40px; /* Место для иконки */
+            border-radius: 10px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            background: transparent;
+            color: black;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-group i {
+            position: absolute;
+            top: 50%;
+            right: 15px; /* Иконка на 15px правее */
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+
+
+        .register-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 50px;
+            background-color: #0FC1C1;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.4s ease;
+            font-size: 18px;
+            font-weight: bold;
+            color: rgb(255, 255, 255);
+            transition: 0.3s;
         }
-        button.register:hover {
-            background-color: rgba(255, 255, 255, 0.5);
+
+        .register-btn:hover {
+            background-color: rgba(15, 193, 193, 0.8);
+        }
+
+        .extra-links {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .extra-links a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .extra-links a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <video autoplay loop muted class="bgvideo" id="bgvideo">
-        <source src="{% static 'videos/ingame.mp4' %}" type="video/mp4">
-    </video>
-
-    <div class="wrapper">
-        <h2>Register</h2>
-
-        <!-- Форма для регистрации -->
-        <form method="POST" action="{% url 'register' %}">
-            {% csrf_token %}
-            <div class="input-field">
-                <input type="text" id="username" name="username" placeholder="Username" required>
-                <i class='bx bxs-user'></i>
-                {% if form.username.errors %}
-                    <div class="error-message">{{ form.username.errors }}</div>
-                {% endif %}
-            </div>
-            <div class="input-field">
-                <input type="email" id="email" name="email" placeholder="Email" required>
-                <i class='bx bxs-envelope'></i>
-                {% if form.email.errors %}
-                    <div class="error-message">{{ form.email.errors }}</div>
-                {% endif %}
-            </div>
-            <div class="input-field">
-                <input type="password" id="password" name="password1" placeholder="Password" required>
-                <i class='bx bxs-lock-alt'></i>
-                {% if form.password1.errors %}
-                    <div class="error-message">{{ form.password1.errors }}</div>
-                {% endif %}
-            </div>
-            <div class="input-field">
-                <input type="password" id="confirm_password" name="password2" placeholder="Confirm Password" required>
-                <i class='bx bxs-lock-alt'></i>
-                {% if form.password2.errors %}
-                    <div class="error-message">{{ form.password2.errors }}</div>
-                {% endif %}
-            </div>
-            <button type="submit" class="register">Register</button>
-        </form>
+    <div class="background-svg">
+        <img src="{% static 'images/background.png' %}" alt="Фон">
     </div>
+
+    <a href="{% url 'index' %}" class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Логотип">
+    </a>
+
+    <div class="register-container">
+        <div class="register-box">
+            <h2>Регистрация</h2>
+
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" name="username" placeholder="Имя пользователя" required>
+                    <i class='bx bxs-user'></i>
+                    {% if form.username.errors %}
+                        <div class="error-message">
+                            {% for error in form.username.errors %}
+                                {% trans error %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Электронная почта" required>
+                    <i class='bx bxs-envelope'></i>
+                    {% if form.email.errors %}
+                        <div class="error-message">
+                            {% for error in form.email.errors %}
+                                {% trans error %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password1" name="password1" placeholder="Пароль" required>
+                    <i class='bx bxs-show' onclick="togglePassword('password1')"></i>
+                    {% if form.password1.errors %}
+                        <div class="error-message">
+                            {% for error in form.password1.errors %}
+                                {% trans error %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password2" name="password2" placeholder="Подтвердите пароль" required>
+                    <i class='bx bxs-show' onclick="togglePassword('password2')"></i>
+                </div>
+                
+                <!-- Перемещаем ошибку в отдельный блок, чтобы она отображалась под кнопкой -->
+                {% if form.password2.errors %}
+                    <div class="error-message">
+                        {% for error in form.password2.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <button type="submit" class="register-btn">Зарегистрироваться</button>
+                
+                
+                
+            </form>
+
+            <div class="extra-links">
+                <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(id) {
+            var passwordField = document.getElementById(id);
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
 </body>
 </html>

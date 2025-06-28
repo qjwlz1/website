@@ -1,402 +1,363 @@
 {% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная страница</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
-
-        :root {
-            --text-color--: hwb(120.63deg 61.45% 0%);
-            --text-color-dark--: hwb(120.63deg 61.45% 0%);
-            --background-color--: #000000;
-            --button-bg--: rgb(234 234 234 / 65%);
-            --button-hover--: rgba(255, 255, 255, 0.7);
-            --overlay-color--: rgba(0, 0, 0, 0.66);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Open Sans", sans-serif;
-        }
-
-        body {
-            width: 100%;
-            background-color: var(--background-color--);
-            color: var(--text-color--);
-        }
-
-        nav {
-            width: 100%;
-            padding: 2rem 5rem;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            background-color: var(--background-color--);
-            position: relative;
-            z-index: 1;
-        }
-
-        .site-title {
-            font-size: 24px;
-            color: var(--text-color--);
-            margin-right: 2rem;
-        }
-
-        .nav-divider {
-            width: 100%;
-            height: 10px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10"><path d="M0,0 C20,10 40,0 60,10 C80,20 100,10 100,0 Z" fill="%231d3c19"/>');
-            background-size: cover;
-            margin-top: -10px;
-        }
-
-        ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            margin-right: auto;
-        }
-
-        li a {
-            color: var(--text-color--);
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            padding: 10px 15px;
-            transition: 0.3s;
-            border-radius: 5px;
-            border: 2px solid transparent;
-        }
-
-        li a:hover {
-            color: var(--text-color-dark--);
-            border: 2px solid var(--text-color--);
-        }
-
-        .books-section {
-            margin-top: 2rem;
-            padding: 0 5rem;
-            position: relative;
-            max-width: 90%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .books-section h2 {
-            font-size: 2rem;
-            color: var(--text-color--);
-            margin-bottom: 1rem;
-        }
-
-        .books-container {
-            display: flex;
-            gap: 20px;
-            overflow: hidden;
-        }
-
-        .book {
-            width: 200px;
-            height: 300px;
-            background-color: var(--text-color-dark--);
-            border-radius: 10px;
-            flex: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .book img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: transform 0.3s;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--overlay-color--);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: flex-start;
-            text-align: left;
-            color: white;
-            padding: 10px;
-        }
-
-        .book:hover .overlay {
-            opacity: 1;
-        }
-
-        .book:hover img {
-            transform: scale(1.05);
-        }
-
-        .read-button {
-            background-color: var(--text-color--);
-            color: #000;
-            border: none;
-            padding: 10px 0;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s;
-        }
-
-        .read-button:hover {
-            background-color: var(--text-color-dark--);
-        }
-
-        .scroll-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: var(--button-bg--);
-            cursor: pointer;
-            z-index: 2;
-            transition: 0.3s;
-        }
-
-        .scroll-button:hover {
-            color: var(--button-hover--);
-        }
-
-        .scroll-left {
-            left: 10px;
-        }
-
-        .scroll-right {
-            right: 10px;
-        }
-
-        .profile-menu {
-            position: relative;
-            display: inline-block;
-            margin-left: auto;
-        }
-
-        .profile-menu button {
-            background: none;
-            color: var(--text-color--);
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .profile-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: var(--background-color--);
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border: 2px solid var(--text-color--);
-            border-radius: 5px;
-            opacity: 0; /* Добавляем начальное состояние */
-            transform: translateY(-10px); /* Смещаем вверх для эффекта выпадания */
-            transition: opacity 0.3s ease, transform 0.3s ease; /* Плавные переходы */
-        }
-
-        .profile-dropdown a {
-            color: var(--text-color--);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .profile-dropdown a:hover {
-            background-color: var(--button-hover--);
-        }
-
-        .profile-menu:hover .profile-dropdown {
-            display: block;
-            opacity: 1; /* Показываем меню */
-            transform: translateY(0); /* Сдвигаем на место */
-        }
-
-        .login-button {
-            background-color: var(--text-color--);
-            color: #000;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .login-button:hover {
-            background-color: var(--text-color-dark--);
-        }
-    </style>
+    <title>VIBE</title>
 </head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Общие стили */
+body {
+    font-family: 'Unbounded', sans-serif; 
+    background-color: #f4f4f4;
+    color: #333;
+    padding-top: 30px; 
+}
+
+.background-svg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.background-svg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+    background-color: rgba(0, 192, 192, 0.7);
+    border-radius: 50px;
+    margin-top: 30px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 10;
+    max-width: 1000px; 
+    max-height: 60px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo {
+    position: absolute;
+    display: block;
+    top: 20px;
+    left: 20px;
+    z-index: 100; 
+    width: 120px; 
+    height: auto;
+}
+
+.logo img {
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.1);
+}
+
+.navbar {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease, transform 0.3s ease; 
+}
+
+.navbar a:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px); 
+}
+
+.navbar a:active {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.profile-btn {
+    background-color: #fff;
+    color: #00c0c0;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    max-width: 150px; 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+    text-align: center;
+}
+
+.profile-btn:hover {
+    background-color: #00c0c0;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.banner {
+    position: relative;
+    height: 700px; 
+    background-image: url('{% static "images/street.png" %}'); 
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px; 
+}
+
+.second-banner {
+    position: relative;
+    height: 815px; 
+    background-image: url('{% static "images/banner2.png" %}'); 
+    background-size: cover;
+    background-position: center;
+    margin-top: 5px;
+}
+
+.sneakers-grid {
+    padding: 40px 10%;
+}
+
+.sneakers {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 20px;
+    
+}
+
+.sneaker-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 45px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 15px;
+    height: 300px; 
+    text-decoration: none; 
+    font-family: 'Unbounded', sans-serif; 
+    font-weight: 10px;
+    color: #ffffff; 
+    position: relative; 
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sneaker-card img {
+    width: 100%;
+    border-radius: 10px;
+    height: 70%; 
+    object-fit: cover; 
+    transition: transform 0.3s ease;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 40%;
+    padding: 10px;
+}
+
+.sneaker-card h3,
+.sneaker-card p {
+    margin: 0;
+    font-size: 1.2rem; 
+    color: #fff; 
+}
+
+.sneaker-card p {
+    font-size: 1rem; 
+    color: rgba(255, 255, 255, 0.7); 
+}
+
+.sneaker-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.sneaker-card:hover img {
+    transform: scale(1.05); 
+}
+
+.sneaker-card:active {
+    transform: translateY(0);
+}
+
+.footer {
+    background-color: #111;
+    color: #fff;
+    padding: 40px 10%;
+    height: 671px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; 
+}
+
+.footer-logo img {
+    width: 160px;
+    height: auto;
+    margin-bottom: 20px; 
+}
+
+.footer-info {
+    max-width: 350px;
+    text-align: left;
+}
+
+.footer-info p {
+    margin: 8px 0;
+    font-size: 1.2rem; 
+}
+
+.footer-info .socials {
+    margin-top: 15px;
+}
+
+.footer-info .social-link {
+    color: #00c0c0;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 1.1rem;
+}
+
+.footer-info .social-link:hover {
+    text-decoration: underline;
+}
+
+.footer-img img {
+    width: 745px; 
+    height: 638px;
+    object-fit: cover;
+}
+
+.footer-info p:first-child {
+    font-weight: bold;
+    font-size: 1.5rem; 
+    color: #00c0c0; 
+}
+
+
+
+
+</style>
 <body>
-
-<header>
-    <nav>
-        <div class="site-title">Студбук</div>
-        <ul>
-            <li><a href="#">Главное</a></li>
-            <li><a href="#">Комиксы</a></li>
-            <li><a href="#">Учебники</a></li>
-        </ul>
-        <div class="profile-menu">
-            {% if request.user.is_authenticated %}
-                <button>{{ request.user.username }}</button>
-                <div class="profile-dropdown">
-                    <a href="#">Профиль</a>
-                    <a href="{% url 'logout' %}">Выйти</a>
-                </div>
-            {% else %}
-                <a href="{% url 'login' %}" class="login-button">Войти</a>
-            {% endif %}
-        </div>
-    </nav>
-    <div class="nav-divider"></div>
-
-
-    <div class="books-section">
-        <h2>Топ-10 за неделю</h2>
-        <button class="scroll-button scroll-left">&#60;</button>
-        <div class="books-container">
-            <div class="book">
-                <img src="{% static 'images/book1.jpg' %}" alt="Book 1">
-                <div class="overlay">
-                    <div>Название: Книга 1</div>
-                    <div>Автор: Автор 1</div>
-                    <div>Издательство: Издательство 1</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <div class="book">
-                <img src="{% static 'images/book2.jpg' %}" alt="Book 2">
-                <div class="overlay">
-                    <div>Название: Книга 2</div>
-                    <div>Автор: Автор 2</div>
-                    <div>Издательство: Издательство 2</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div> <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div> <div class="book">
-                <img src="{% static 'images/book3.jpg' %}" alt="Book 3">
-                <div class="overlay">
-                    <div>Название: Книга 3</div>
-                    <div>Автор: Автор 3</div>
-                    <div>Издательство: Издательство 3</div>
-                    <button class="read-button">Читать</button>
-                </div>
-            </div>
-            <!-- Добавьте дополнительные книги по мере необходимости -->
-        </div>
-        <button class="scroll-button scroll-right">&#62;</button>
+    <div class="background-svg">
+        <img src="{% static 'images/background.png' %}" alt="Фон">
     </div>
-</header>
-<script>
-    // Scroll buttons
-    const scrollContainer = document.querySelector('.books-container');
-    const leftButton = document.querySelector('.scroll-left');
-    const rightButton = document.querySelector('.scroll-right');
 
-    leftButton.addEventListener('click', () => {
-        scrollContainer.scrollBy({ left: -400, behavior: 'smooth' });
-    });
+    <header class="header">
+        <div class="navbar">
+            <a href="{% url 'index' %}" class="nav-link">Главная</a>
+            <a href="{% url 'cart' %}" class="nav-link">Корзина</a>
+        </div>
+        <a href="{% if user.is_authenticated %}{% url 'profile' %}{% else %}{% url 'login' %}{% endif %}" class="profile-btn">
+            {% if user.is_authenticated %}
+                <span class="username">{{ user.username }}</span>
+            {% else %}
+                Войти
+            {% endif %}
+        </a>
+    </header>
+    
 
-    rightButton.addEventListener('click', () => {
-        scrollContainer.scrollBy({ left: 400, behavior: 'smooth' });
-    });
-</script>
+    <a href="{% url 'index' %}" class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Логотип">
+    </a>
+
+    <section class="banner">
+        <div class="banner-overlay">
+        </div>
+    </section>
+
+    <!-- Сетка с кроссовками -->
+    <section class="sneakers-grid">
+        <div class="sneakers">
+            <a href="{% url 'orange' %}" class="sneaker-card" style="background-color: #FFC7AA;">
+                <img src="{% static 'images/orangebg.png' %}" alt="Кроссовки 1">
+                <p>Nike Air Force 1</p>
+                <p>"Magma Orange"</p>
+            </a>
+            <a href="{% url 'green' %}" class="sneaker-card" style="background-color: #ACC781;">
+                <img src="{% static 'images/greenbg.png' %}" alt="Кроссовки 2">
+                <p>Adidas ZX 8000</p>
+                <p>"Toxic Green"</p>
+            </a>
+            <a href="{% url 'red' %}" class="sneaker-card" style="background-color: #BC717A;">
+                <img src="{% static 'images/bloodbg.png' %}" alt="Кроссовки 3">
+                <p>Jordan 1 Retro High OG</p>
+                <p>"Bloodline"</p>
+            </a>
+            <a href="{% url 'blue' %}" class="sneaker-card" style="background-color: #85AACC;">
+                <img src="{% static 'images/bluebg.png' %}" alt="Кроссовки 4">
+                <p>New Balance 550</p>
+                <p>"Electric Blue"</p>
+            </a>
+            <a href="{% url 'black' %}" class="sneaker-card" style="background-color: #767575;">
+                <img src="{% static 'images/blackbg.png' %}" alt="Кроссовки 5">
+                <p>Puma RS-X</p>
+                <p>"Shadow Black"</p>
+            </a>
+            <a href="{% url 'yellow' %}" class="sneaker-card" style="background-color: #D2BA8A;">
+                <img src="{% static 'images/yellowbg.png' %}" alt="Кроссовки 6">
+                <p>Nike Dunk Low</p>
+                <p>"Dusty Olive"</p>
+            </a>
+        </div>
+    </section>
+    
+    
+
+    <section class="second-banner">
+        <div class="banner-overlay">
+        </div>
+    </section>
+
+<footer class="footer">
+    <div class="footer-logo">
+        <img src="{% static 'images/flogo.png' %}" alt="Логотип VIBE">
+    </div>
+    <div class="footer-info">
+        <p>Контакты:</p>
+        <p>Email: qjwlz@ya.ru</p>
+        <p>Telegram: @qjwlq</p>
+        <p>Спасибо что зашли на наш сайт (〃￣︶￣)人(￣︶￣〃)</p>
+        <div class="socials">
+            <a href="https://t.me/qjwlq" class="social-link">Telegram</a>
+        </div>
+    </div>
+    <div class="footer-img">
+        <img src="{% static 'images/f.png' %}" alt="Изображение футера">
+    </div>
+</footer>
 
 </body>
 </html>

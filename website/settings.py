@@ -1,30 +1,27 @@
 import os
 from pathlib import Path
 
-# Путь к корневой директории проекта
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Секретный ключ проекта
-SECRET_KEY = 'your-secret-key'  # Убедитесь, что у вас установлен реальный секретный ключ
+# Секретный ключ
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'default-insecure-key-for-dev-only') # Это безопаснее
+DEBUG = False
 
-# Включаем режим отладки для разработки (выключить в продакшене)
-DEBUG = True  # Для развертывания в продакшене следует установить False
 
-# Хосты, с которых разрешён доступ
-ALLOWED_HOSTS = ['*']
-
-# Установленные приложения (включаем наше приложение 'accounts')
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'qjwlz.ru', 'www.qjwlz.ru', '188.68.199.231','qjwlz.pythonanywhere.com'] # Добавьте сюда свой внешний IP
+CSRF_TRUSTED_ORIGINS = ['https://qjwlz.ru', 'https://www.qjwlz.ru']
 INSTALLED_APPS = [
+    'django_extensions',
+    'accounts',  # Убедитесь, что ваше приложение "accounts" здесь указано
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',  # Ваше приложение
 ]
 
-# Мидлвары (обработчики запросов)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -35,10 +32,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Главный файл маршрутов проекта
 ROOT_URLCONF = 'website.urls'
 
-# Настройки шаблонов
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -55,7 +50,8 @@ TEMPLATES = [
     },
 ]
 
-# Настройки базы данных (по умолчанию SQLite)
+
+#SQLite
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -63,7 +59,6 @@ DATABASES = {
     }
 }
 
-# Настройки авторизации
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -79,20 +74,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Язык и часовой пояс
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Статические файлы (CSS, JavaScript, изображения)
-
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # Adjust this path based on where your static files are stored
-
-
-# Медиа файлы (если используешь загрузку файлов)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_DIRS = [ # Эту строку и следующую можно удалить или закомментировать
+    os.path.join(BASE_DIR, 'static'),
+    ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
