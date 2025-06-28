@@ -103,7 +103,7 @@
 
 ## 📄 Лицензия
 Этот проект распространяется под лицензией [MIT License](https://opensource.org/licenses/MIT).
-
+---
 # "Vibe" Sneaker Store Project
 
 ## 🚀 Project Description
